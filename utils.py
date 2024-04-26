@@ -12,7 +12,7 @@ IMAGE_SIZE = (300, 300)
 
 
 def load_config():
-    with open("./config.yaml", "r") as file:
+    with open("config.yaml", "r") as file:
         config = yaml.safe_load(file)
 
     config["data_dir"] = Path(config["data_dir"])
