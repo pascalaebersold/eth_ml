@@ -3,6 +3,7 @@ from utils import load_config, load_dataset, load_private_test_dataset, print_re
 
 # scikit-learn imports
 from sklearn import linear_model
+from sklearn.preprocessing import StandardScaler
 
 # matplotlib imports
 import matplotlib
@@ -24,6 +25,12 @@ if __name__ == "__main__":
     # Load dataset: images and corresponding minimum distance values
     images, distances = load_dataset(config)
     print(f"[INFO]: Dataset loaded with {len(images)} samples.")
+
+    X = np.array(images)
+
+    scaler = StandardScaler()
+
+    X_scaled = scaler.fit_transform(X)
 
     # TODO: Your implementation starts here
 
