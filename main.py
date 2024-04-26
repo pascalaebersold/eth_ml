@@ -43,7 +43,7 @@ if __name__ == "__main__":
     X_train_scaled = scaler.transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    svr_model = SVR(kernel='rbf', C=3, cache_size=8000, shrinking=False, epsilon=0.2)
+    svr_model = SVR(kernel='rbf', C=2, cache_size=9000, shrinking=False, epsilon=0.2)
     svr_model.fit(X_train_scaled, y_train)
 
     y_pred_train = svr_model.predict(X_train_scaled)
