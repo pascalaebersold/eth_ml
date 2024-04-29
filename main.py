@@ -9,6 +9,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.svm import SVR
 from sklearn.metrics import mean_absolute_error
+from sklearn.ensemble import RandomForestRegressor
+
+from sklearn.pipeline import Pipeline
+
 
 # matplotlib imports
 import matplotlib
@@ -37,17 +41,26 @@ if __name__ == "__main__":
     X_train, y_train = np.array(images_train), np.array(distances_train)
     X_test, y_test = np.array(images_test), np.array(distances_test)
 
+    
     scaler = StandardScaler()
     scaler.fit(X_train)
 
+    
     X_train_scaled = scaler.transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
     svr_model = SVR(kernel='rbf', C=3, cache_size=8000, shrinking=False, epsilon=0.05)
     svr_model.fit(X_train_scaled, y_train)
 
+    #pipeline.fit(X_train,y_train)
+    
+    
     y_pred_train = svr_model.predict(X_train_scaled)
     y_pred = svr_model.predict(X_test_scaled)
+    #y_pred_train = pipeline.predict(X_train)
+    #y_pred = pipeline.predict(X_test)
+    
+    
 
     # show mean squared error (not important)
     mse_train = mean_squared_error(y_train, y_pred_train)
