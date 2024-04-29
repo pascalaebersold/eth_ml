@@ -10,7 +10,9 @@ from sklearn.metrics import mean_squared_error
 from sklearn.svm import SVR
 from sklearn.metrics import mean_absolute_error
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.ensemble import RandomForestClassifier
+
+from sklearn.pipeline import Pipeline
+
 
 # matplotlib imports
 import matplotlib
@@ -39,21 +41,30 @@ if __name__ == "__main__":
     X_train, y_train = np.array(images_train), np.array(distances_train)
     X_test, y_test = np.array(images_test), np.array(distances_test)
 
-    scaler = StandardScaler()
-    scaler.fit(X_train)
+    
+    #scaler = StandardScaler()
+    #scaler.fit(X_train)
 
-    X_train_scaled = scaler.transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    
+    #X_train_scaled = scaler.transform(X_train)
+    #X_test_scaled = scaler.transform(X_test)
+
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),
+        ('regressor', RandomForestRegressor(n_estimators=200, max_features="sqrt", random_state=0, max_depth=20, oob_score=True, max_leaf_nodes=None))
+    ])
 
     #svr_model = SVR(kernel='rbf', C=2, cache_size=8000, shrinking=False, epsilon=0.2)
     #svr_model.fit(X_train_scaled, y_train)
-    regressor = RandomForestRegressor(n_estimators = 12, random_state = 0, max_depth = 20, oob_score = True, min_samples_leaf=5, min_samples_split=5)
-    regressor.fit(X_train_scaled,y_train)
+
+    pipeline.fit(X_train,y_train)
+    
     
     #y_pred_train = svr_model.predict(X_train_scaled)
     #y_pred = svr_model.predict(X_test_scaled)
-    y_pred_train = regressor.predict(X_train_scaled)
-    y_pred = regressor.predict(X_test_scaled)
+    y_pred_train = pipeline.predict(X_train)
+    y_pred = pipeline.predict(X_test)
+    
     
 
     # show mean squared error (not important)
