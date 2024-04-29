@@ -43,7 +43,7 @@ if __name__ == "__main__":
     X_train_scaled = scaler.transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    svr_model = SVR(kernel='rbf', C=3, cache_size=8000, shrinking=False, epsilon=0.2)
+    svr_model = SVR(kernel='rbf', C=3, cache_size=8000, shrinking=False, epsilon=0.05)
     svr_model.fit(X_train_scaled, y_train)
 
     y_pred_train = svr_model.predict(X_train_scaled)
@@ -69,13 +69,13 @@ if __name__ == "__main__":
         input()"""
 
     # load private test images and guess for yourself
-    """private_test_images = load_private_test_dataset(config)
+    private_test_images = load_private_test_dataset(config)
     for image in private_test_images:
         img = scaler.transform(np.array([image]))
         pred = svr_model.predict(img)
         print(f"predicted distance: {pred}")
         print(img.shape)
-        image = image.reshape((30, 30, 3))
+        image = image.reshape((300//config["downsample_factor"], 300//config["downsample_factor"], 3))
         plt.imshow(image)
         plt.show()
-        input()"""
+        input()
